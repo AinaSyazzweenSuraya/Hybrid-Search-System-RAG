@@ -61,3 +61,7 @@ No production load, accessibility audit, hostile-file sandbox, arbitrary-corpus 
 ## Deployment preparation follow-up
 
 After adding Vercel configuration and PostgreSQL storage, the full 22-test suite passed against both SQLite and a real PostgreSQL 17 instance. Browser validation was rerun against SQLite. Vercel production deployment was attempted but the CLI reported no existing credentials. Requests to Vercel domains also returned HTTP 403 under the current environment network policy. No cloud deployment URL or successful remote build is claimed.
+
+## White-and-blue theme update
+
+Changed the interface to light surfaces, blue controls and accents, and dark readable text, including uploads, parameters, results, evidence, library actions, and notifications. The complete browser scenario passed again with no JavaScript errors. Desktop (1440 px) and mobile (390 px) screenshots were regenerated and visually inspected; no horizontal overflow was detected.

@@ -1,6 +1,6 @@
 # Neon Atlas — Hybrid document search
 
-A working document retrieval app with local SQLite and serverless PostgreSQL storage with a dark blue neon UI. Upload documents, search using keywords and related concepts, inspect source passages, and export citation-bearing evidence for RAG development.
+A working document retrieval app with local SQLite and serverless PostgreSQL storage with a white-and-blue UI. Upload documents, search using keywords and related concepts, inspect source passages, and export citation-bearing evidence for RAG development.
 
 ![Search explorer](docs/screenshots/explorer.png)
 
