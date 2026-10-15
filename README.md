@@ -1,8 +1,8 @@
-# Neon Atlas — Hybrid document search
+# Hybrid Search Engine — Hybrid document search
 
-A working document retrieval app with local SQLite and serverless PostgreSQL storage with a white-and-blue UI. Upload documents, search using keywords and related concepts, inspect source passages, and export citation-bearing evidence for RAG development.
+A working document retrieval app with local SQLite, serverless PostgreSQL storage, and a white-and-blue UI. Upload documents, search using keywords and related concepts, inspect source passages, and export citation-bearing evidence for RAG development.
 
-![Search explorer](docs/screenshots/explorer.png)
+![Search](docs/screenshots/explorer.png)
 
 ## Run
 
@@ -88,3 +88,5 @@ No external fonts, scripts, analytics, or AI requests are needed by the applicat
 ## Deploy to Vercel
 
 See [GitHub and Vercel deployment](docs/DEPLOYMENT.md). Vercel requires a persistent PostgreSQL `DATABASE_URL`; local SQLite is not used in serverless deployments. Uploads are limited to 4 MiB on Vercel.
+
+The interface includes a first-use guide, **How to use** help, plain-language search mode explanations, **My documents**, and resettable **Search settings**. The **Meaning** mode maps to the API's `semantic` mode.

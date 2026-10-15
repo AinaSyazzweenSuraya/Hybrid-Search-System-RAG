@@ -33,7 +33,7 @@ def db():
         c.rollback()
         raise
     finally: c.close()
-app=FastAPI(title='Neon Atlas · Hybrid document search',version='1.0.0')
+app=FastAPI(title='Hybrid Search Engine · Hybrid document search',version='1.0.0')
 app.mount('/static',StaticFiles(directory=Path(__file__).parent/'static'),name='static')
 @app.get('/')
 def home(): return FileResponse(Path(__file__).parent/'static/index.html')

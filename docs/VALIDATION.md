@@ -65,3 +65,7 @@ After adding Vercel configuration and PostgreSQL storage, the full 22-test suite
 ## White-and-blue theme update
 
 Changed the interface to light surfaces, blue controls and accents, and dark readable text, including uploads, parameters, results, evidence, library actions, and notifications. The complete browser scenario passed again with no JavaScript errors. Desktop (1440 px) and mobile (390 px) screenshots were regenerated and visually inspected; no horizontal overflow was detected.
+
+## Hybrid Search Engine usability update
+
+Renamed the product and API title to Hybrid Search Engine. Added first-use steps, a How to use dialog, plain-language mode explanations, a settings reset action, and an upload-to-search action. Technical retrieval scores remain available in expandable details. Mobile navigation now displays readable labels. Browser checks additionally verified help, mode descriptions and pressed states, disabling the irrelevant meaning slider in Keyword/Meaning modes, reset defaults, upload-to-search focus, and updated results after deletion. The full 22-test backend suite passed. Desktop and mobile screenshots were regenerated and visually inspected.
