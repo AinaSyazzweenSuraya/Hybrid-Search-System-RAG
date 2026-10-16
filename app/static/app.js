@@ -1,7 +1,27 @@
 const $=s=>document.querySelector(s);let documents=[],mode='hybrid',lastEvidence=[],requestId=0,maxUploadBytes=10*1024*1024;
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
 function toast(text){$('#toast').textContent=text;$('#toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').style.display='none',5000)}
-async function api(path,options={}){const r=await fetch(path,options);let data;try{data=await r.json()}catch{throw Error('Server returned an unreadable response.')}if(!r.ok)throw Error(typeof data.detail==='string'?data.detail:'Check the supplied parameters and try again.');return data}
+async function api(path,options={}){
+ let r;
+ try{r=await fetch(path,options)}catch{throw Error('Could not reach the server. Check your connection and try again.')}
+ const body=await r.text();let data;
+ try{data=JSON.parse(body)}catch{
+  const messages={
+   413:'This upload exceeds the hosting upload limit. Choose a smaller file (up to 4 MB on Vercel).',
+   401:'This deployment requires sign-in. Open the app in an authenticated browser and try again.',
+   403:'Access to this deployment was denied. Check the project access settings.',
+   502:'The server could not start or respond. Check the Vercel runtime logs and project configuration.',
+   503:'The service is temporarily unavailable. Check the Vercel runtime logs and database connection.',
+   504:'The server took too long to respond. Try a smaller document and check the database connection.'
+  };
+  throw Error(`${messages[r.status]||'The server returned an unexpected response. Check the Vercel runtime logs for this request.'} (HTTP ${r.status})`)
+ }
+ if(!r.ok){
+  const detail=typeof data.detail==='string'?data.detail:'Check the supplied parameters and try again.';
+  throw Error(`${detail} (HTTP ${r.status}${data.reference?`; reference ${data.reference}`:''})`)
+ }
+ return data
+}
 async function refresh(){documents=await api('/api/documents');$('#docCount').textContent=documents.length;$('#navCount').textContent=documents.length;$('#chunkCount').textContent=documents.reduce((n,d)=>n+d.chunks,0);const filter=$('#docFilter'),old=filter.value;filter.replaceChildren(new Option('All documents',''));documents.forEach(d=>filter.add(new Option(d.name,d.id)));filter.value=documents.some(d=>d.id===old)?old:'';renderLibrary();$('#gettingStarted').hidden=documents.length>0}
 function showView(library){$('#searchView').hidden=library;$('#libraryView').hidden=!library;$('#searchNav').classList.toggle('active',!library);$('#libraryNav').classList.toggle('active',library);$('#pageLabel').textContent=library?'My documents':'Search'}
 $('#searchNav').onclick=()=>showView(false);$('#libraryNav').onclick=()=>showView(true);

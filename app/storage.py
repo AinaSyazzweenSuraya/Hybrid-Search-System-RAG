@@ -5,7 +5,7 @@ class PostgresConnection:
     def __init__(self, url):
         import psycopg
         from psycopg.rows import dict_row
-        self.connection=psycopg.connect(url, row_factory=dict_row, connect_timeout=10)
+        self.connection=psycopg.connect(url, row_factory=dict_row, connect_timeout=10, prepare_threshold=None)
     def execute(self, sql, params=()):
         return self.connection.execute(sql.replace('?', '%s'),params)
     def executemany(self, sql, params):

@@ -44,3 +44,16 @@ TEST_DATABASE_URL=postgresql://localhost/neon_test .venv/bin/python -m pytest -q
 ```
 
 **The PostgreSQL test fixture deletes records in the selected test database.** It refuses database names that do not end in `_test`. Never supply a production connection as `TEST_DATABASE_URL`.
+
+## Troubleshooting uploads
+
+The PostgreSQL adapter disables psycopg automatic prepared statements (`prepare_threshold=None`) for Supabase transaction-pooler compatibility. PDF text containing NUL characters is cleaned before insertion because PostgreSQL text columns cannot store NUL.
+
+If an upload fails:
+
+1. Open `/api/health`. A database failure now returns JSON with `DATABASE_UNAVAILABLE` and a safe reference. Check Supabase is active, the pooler username/host/password are correct, special password characters are URL-encoded, and `DATABASE_URL` is set for the active Vercel environment. Redeploy after updating variables.
+2. Check Vercel runtime logs for the reference. Application error logs include an exception type and SQLSTATE when available, without raw connection details. Do not share passwords or full database URLs.
+3. A non-JSON HTTP 413 response indicates the platform rejected the request size. HTTP 504 indicates a timeout. HTTP 500/502 may indicate a runtime startup or application failure; inspect Vercel logs rather than assuming a file-format problem.
+4. If a tiny TXT upload succeeds while a particular PDF fails, try a smaller text-based PDF and check that the original has selectable text. Scanned PDFs need OCR outside the app.
+
+The app cannot format errors emitted before its runtime starts; the frontend reports their HTTP status and recovery guidance instead.

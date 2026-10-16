@@ -32,6 +32,18 @@ with server() as base_url, sync_playwright() as p:
  assert page.locator('#helpDialog li').count()==3
  page.click('#closeHelp');assert not page.locator('#helpDialog').is_visible()
  page.screenshot(path=str(root/'docs/screenshots/explorer.png'),full_page=True)
+ # Exercise errors returned by a hosting proxy before the app can produce JSON.
+ for status in [500,413,504]:
+  page.route('**/api/documents?*',lambda route,request,code=status:route.fulfill(status=code,content_type='text/html',body='<html>Hosting error</html>'))
+  page.click('#uploadTop');page.locator('#files').set_input_files({'name':'error.txt','mimeType':'text/plain','buffer':b'Test hosting error'})
+  page.wait_for_selector('#uploadStatus .error')
+  assert f'HTTP {status}' in page.locator('#uploadStatus .error').inner_text()
+  assert 'unreadable response' not in page.locator('#uploadStatus .error').inner_text()
+  page.click('#closeUpload');page.unroute('**/api/documents?*')
+ page.route('**/api/documents?*',lambda route:route.fulfill(status=503,json={'detail':'The document database is unavailable.','reference':'test-ref-123'}))
+ page.click('#uploadTop');page.locator('#files').set_input_files({'name':'db-error.txt','mimeType':'text/plain','buffer':b'Test database error'})
+ page.wait_for_selector('#uploadStatus .error');assert 'test-ref-123' in page.locator('#uploadStatus .error').inner_text()
+ page.click('#closeUpload');page.unroute('**/api/documents?*')
  page.click('#uploadTop');page.locator('#files').set_input_files({'name':'invalid.exe','mimeType':'application/octet-stream','buffer':b'bad'});page.wait_for_selector('#uploadStatus .error');page.click('#closeUpload')
  page.click('#loadDemo');page.wait_for_selector('.result');assert page.locator('#docCount').inner_text()=='3'
  assert page.locator('#evidencePanel').is_visible()

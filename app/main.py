@@ -1,9 +1,10 @@
-import io,os,sqlite3,threading,time,uuid,zipfile
+import io,os,sqlite3,threading,time,uuid,zipfile,logging
+import psycopg
 from .storage import connect, initialize
 from contextlib import contextmanager
 from pathlib import Path
 from fastapi import FastAPI,UploadFile,File,HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel,Field
 from .parsers import SUPPORTED,extract
@@ -34,6 +35,27 @@ def db():
         raise
     finally: c.close()
 app=FastAPI(title='Hybrid Search Engine · Hybrid document search',version='1.0.0')
+logger=logging.getLogger('hybrid_search')
+
+@app.exception_handler(psycopg.Error)
+async def database_error(request,exc):
+    reference=uuid.uuid4().hex[:12]
+    # Never log exception text: connection errors can contain connection details.
+    logger.error('Database error reference=%s type=%s sqlstate=%s',reference,type(exc).__name__,exc.sqlstate)
+    if isinstance(exc,psycopg.errors.InsufficientPrivilege):
+        detail='Database permissions are missing. The project owner should check table and schema permissions in Supabase.'
+    elif isinstance(exc,psycopg.errors.InvalidPassword):
+        detail='Database authentication failed. The project owner should check the database password in DATABASE_URL and redeploy.'
+    else:
+        detail='The document database is unavailable. The project owner should check DATABASE_URL, the Supabase project status, and database connection settings, then redeploy if settings changed.'
+    return JSONResponse(status_code=503,content={'detail':detail,'code':'DATABASE_UNAVAILABLE','reference':reference})
+
+@app.exception_handler(Exception)
+async def unexpected_error(request,exc):
+    reference=uuid.uuid4().hex[:12]
+    logger.error('Request error reference=%s type=%s',reference,type(exc).__name__)
+    return JSONResponse(status_code=500,content={'detail':'The server could not complete this request. Try again; if it continues, share the error reference with the project owner.','code':'INTERNAL_ERROR','reference':reference})
+
 app.mount('/static',StaticFiles(directory=Path(__file__).parent/'static'),name='static')
 @app.get('/')
 def home(): return FileResponse(Path(__file__).parent/'static/index.html')
@@ -57,7 +79,7 @@ async def upload(file:UploadFile=File(...),chunk_size:int=180,overlap:int=35):
         if ext in {'.docx','.pptx','.xlsx'}:
             with zipfile.ZipFile(io.BytesIO(data)) as z:
                 if sum(i.file_size for i in z.infolist())>50*1024*1024: raise ValueError('Expanded document exceeds 50 MB.')
-        text=extract(name,data)
+        text=extract(name,data).replace('\x00','')
         if len(text)>2_000_000: raise ValueError('Extracted text exceeds 2 million characters.')
         if not text.strip(): raise ValueError('No readable text found. Scanned PDFs need OCR before upload.')
     except Exception as e: raise HTTPException(422,'Could not read document. Ensure it is valid, unencrypted, and contains selectable text.') from e

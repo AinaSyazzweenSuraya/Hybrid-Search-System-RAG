@@ -69,3 +69,11 @@ Changed the interface to light surfaces, blue controls and accents, and dark rea
 ## Hybrid Search Engine usability update
 
 Renamed the product and API title to Hybrid Search Engine. Added first-use steps, a How to use dialog, plain-language mode explanations, a settings reset action, and an upload-to-search action. Technical retrieval scores remain available in expandable details. Mobile navigation now displays readable labels. Browser checks additionally verified help, mode descriptions and pressed states, disabling the irrelevant meaning slider in Keyword/Meaning modes, reset defaults, upload-to-search focus, and updated results after deletion. The full 22-test backend suite passed. Desktop and mobile screenshots were regenerated and visually inspected.
+
+## Upload error and Supabase pooler follow-up — 16 October 2026
+
+Disabled psycopg automatic prepared statements for transaction-pooler compatibility, removed NUL characters from extracted document text before storage, added safe JSON database/server errors with references, and replaced generic unreadable-response messages with HTTP-specific guidance.
+
+SQLite: 27 tests passed, one PostgreSQL-only test skipped. Disposable PostgreSQL 17: all 28 tests passed, including repeated statements producing no prepared statements. Browser checks passed, including simulated non-JSON HTTP 500/413/504 responses, JSON database failures with references, and successful upload recovery afterward. Error tests confirmed internal exception text and a synthetic password were absent from responses and application log messages.
+
+The reported live URL is https://hybrid-search-system.vercel.app/. Direct verification was blocked by the cloud environment's egress proxy (CONNECT HTTP 403), so the cause of the original live upload failure and post-deployment recovery remain unverified. The domain was added to the saved environment network draft for review; saving does not apply it to the running environment.

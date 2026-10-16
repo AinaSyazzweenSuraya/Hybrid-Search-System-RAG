@@ -98,3 +98,46 @@ def test_chunking_and_empty_search(client):
     assert not client.post('/api/search',json={'query':'anything'}).json()['results']
     assert client.get('/api/health').json()['status']=='ok'
     assert client.get('/').status_code==200
+
+@pytest.mark.parametrize('error_type',['OperationalError','InvalidPassword','InsufficientPrivilege'])
+def test_database_errors_are_actionable_and_do_not_leak_credentials(client,monkeypatch,caplog,error_type):
+    import psycopg
+    import app.main as main
+    cls=getattr(psycopg,error_type,None) or getattr(psycopg.errors,error_type)
+    secret='private-database-password-not-for-response'
+    def unavailable(*args): raise cls(secret)
+    monkeypatch.setattr(main,'connect',unavailable)
+    r=client.post('/api/documents',files={'file':('policy.txt',b'Vacation policy for employees.')})
+    assert r.status_code==503
+    body=r.json()
+    assert body['code']=='DATABASE_UNAVAILABLE' and len(body['reference'])==12
+    assert 'database' in body['detail'].lower()
+    assert secret not in r.text and secret not in caplog.text
+    assert body['reference'] in caplog.text
+
+def test_unexpected_error_has_safe_reference(client,monkeypatch,caplog):
+    import app.main as main
+    def broken(*args): raise RuntimeError('private internal connection details')
+    monkeypatch.setattr(main,'connect',broken)
+    with TestClient(main.app,raise_server_exceptions=False) as c:
+        r=c.get('/api/health')
+    assert r.status_code==500 and r.json()['code']=='INTERNAL_ERROR'
+    assert 'private internal' not in r.text and 'private internal' not in caplog.text
+
+def test_extracted_null_characters_are_removed(client,monkeypatch):
+    import app.main as main
+    monkeypatch.setattr(main,'extract',lambda *args:'Vacation\x00 policy for employees')
+    r=client.post('/api/documents',files={'file':('policy.pdf',b'parser replaced by test')})
+    assert r.status_code==201
+    results=client.post('/api/search',json={'query':'Vacation','mode':'keyword'}).json()['results']
+    assert results and '\x00' not in results[0]['text']
+
+def test_postgres_does_not_prepare_statements():
+    url=os.environ.get('TEST_DATABASE_URL')
+    if not url: pytest.skip('Requires disposable PostgreSQL test database')
+    from app.storage import PostgresConnection
+    c=PostgresConnection(url)
+    try:
+        for _ in range(8): c.execute('SELECT 1').fetchone()
+        assert c.execute('SELECT COUNT(*) AS count FROM pg_prepared_statements').fetchone()['count']==0
+    finally: c.close()
