@@ -1,0 +1,801 @@
+{
+  "scope": "23 hand-labelled diagnostic queries over 12 synthetic documents. Not representative of user files.",
+  "modes": {
+    "keyword": {
+      "answerable_queries": 20,
+      "top1_accuracy": 0.85,
+      "recall_at_3": 0.85,
+      "mrr_at_3": 0.85,
+      "no_answer_correct": 0,
+      "no_answer_queries": 3,
+      "queries": [
+        {
+          "category": "literal",
+          "query": "annual leave",
+          "expected": "leave",
+          "returned": [
+            "leave"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "multi-factor authentication",
+          "expected": "security",
+          "returned": [
+            "security"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "refund thirty days",
+          "expected": "refund",
+          "returned": [
+            "refund",
+            "leave",
+            "expense"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "vehicle theft",
+          "expected": "vehicle",
+          "returned": [
+            "vehicle"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "travel receipts",
+          "expected": "expense",
+          "returned": [
+            "expense",
+            "leave"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "Sunrise Medical Centre",
+          "expected": "clinic",
+          "returned": [
+            "clinic",
+            "damansara",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "multimodal relation prediction",
+          "expected": "research",
+          "returned": [
+            "research"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "breakfast",
+          "expected": "food",
+          "returned": [
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "forgotten password",
+          "expected": "password",
+          "returned": [
+            "password"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "reciprocal rank fusion",
+          "expected": "search",
+          "returned": [
+            "search"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "filename",
+          "query": "Micare",
+          "expected": "clinic",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "filename",
+          "query": "Cross-media relationship classification",
+          "expected": "research",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "synonym",
+          "query": "holiday approval",
+          "expected": "leave",
+          "returned": [
+            "leave"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "synonym",
+          "query": "automobile protection",
+          "expected": "vehicle",
+          "returned": [
+            "vehicle"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "paraphrase",
+          "query": "How do I get my money back?",
+          "expected": "refund",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "paraphrase",
+          "query": "Where can I eat in the morning?",
+          "expected": "food",
+          "returned": [
+            "food",
+            "parking",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "paraphrase",
+          "query": "I cannot log in to my account",
+          "expected": "password",
+          "returned": [
+            "password",
+            "refund",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "i want to know panel clinic in damansara area",
+          "expected": "damansara",
+          "returned": [
+            "damansara",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "panel clinics in Damansara",
+          "expected": "damansara",
+          "returned": [
+            "damansara",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "panel clinic Shah Alam",
+          "expected": "clinic",
+          "returned": [
+            "clinic",
+            "damansara"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "no-answer",
+          "query": "What is the quantum flux capacitor warranty?",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "no-answer",
+          "query": "What is the lunar geology protocol?",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "no-answer",
+          "query": "the and is",
+          "expected": null,
+          "returned": [
+            "food",
+            "parking",
+            "password"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        }
+      ]
+    },
+    "semantic": {
+      "answerable_queries": 20,
+      "top1_accuracy": 0.8,
+      "recall_at_3": 0.8,
+      "mrr_at_3": 0.8,
+      "no_answer_correct": 0,
+      "no_answer_queries": 3,
+      "queries": [
+        {
+          "category": "literal",
+          "query": "annual leave",
+          "expected": "leave",
+          "returned": [
+            "leave",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "multi-factor authentication",
+          "expected": "security",
+          "returned": [
+            "security",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "refund thirty days",
+          "expected": "refund",
+          "returned": [
+            "refund",
+            "expense",
+            "leave"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "vehicle theft",
+          "expected": "vehicle",
+          "returned": [
+            "vehicle",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "travel receipts",
+          "expected": "expense",
+          "returned": [
+            "expense",
+            "leave",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "Sunrise Medical Centre",
+          "expected": "clinic",
+          "returned": [
+            "clinic",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "multimodal relation prediction",
+          "expected": "research",
+          "returned": [
+            "research",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "breakfast",
+          "expected": "food",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "literal",
+          "query": "forgotten password",
+          "expected": "password",
+          "returned": [
+            "password",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "reciprocal rank fusion",
+          "expected": "search",
+          "returned": [
+            "search",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "filename",
+          "query": "Micare",
+          "expected": "clinic",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "filename",
+          "query": "Cross-media relationship classification",
+          "expected": "research",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "synonym",
+          "query": "holiday approval",
+          "expected": "leave",
+          "returned": [
+            "leave",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "synonym",
+          "query": "automobile protection",
+          "expected": "vehicle",
+          "returned": [
+            "vehicle",
+            "security",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "paraphrase",
+          "query": "How do I get my money back?",
+          "expected": "refund",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "paraphrase",
+          "query": "Where can I eat in the morning?",
+          "expected": "food",
+          "returned": [
+            "food",
+            "clinic",
+            "password"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "paraphrase",
+          "query": "I cannot log in to my account",
+          "expected": "password",
+          "returned": [
+            "password",
+            "refund",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "i want to know panel clinic in damansara area",
+          "expected": "damansara",
+          "returned": [
+            "damansara",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "panel clinics in Damansara",
+          "expected": "damansara",
+          "returned": [
+            "damansara",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "panel clinic Shah Alam",
+          "expected": "clinic",
+          "returned": [
+            "clinic",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "no-answer",
+          "query": "What is the quantum flux capacitor warranty?",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "no-answer",
+          "query": "What is the lunar geology protocol?",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "no-answer",
+          "query": "the and is",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        }
+      ]
+    },
+    "hybrid": {
+      "answerable_queries": 20,
+      "top1_accuracy": 0.85,
+      "recall_at_3": 0.85,
+      "mrr_at_3": 0.85,
+      "no_answer_correct": 0,
+      "no_answer_queries": 3,
+      "queries": [
+        {
+          "category": "literal",
+          "query": "annual leave",
+          "expected": "leave",
+          "returned": [
+            "leave",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "multi-factor authentication",
+          "expected": "security",
+          "returned": [
+            "security",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "refund thirty days",
+          "expected": "refund",
+          "returned": [
+            "refund",
+            "leave",
+            "expense"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "vehicle theft",
+          "expected": "vehicle",
+          "returned": [
+            "vehicle",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "travel receipts",
+          "expected": "expense",
+          "returned": [
+            "expense",
+            "leave",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "Sunrise Medical Centre",
+          "expected": "clinic",
+          "returned": [
+            "clinic",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "multimodal relation prediction",
+          "expected": "research",
+          "returned": [
+            "research",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "breakfast",
+          "expected": "food",
+          "returned": [
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "forgotten password",
+          "expected": "password",
+          "returned": [
+            "password",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "literal",
+          "query": "reciprocal rank fusion",
+          "expected": "search",
+          "returned": [
+            "search",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "filename",
+          "query": "Micare",
+          "expected": "clinic",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "filename",
+          "query": "Cross-media relationship classification",
+          "expected": "research",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "synonym",
+          "query": "holiday approval",
+          "expected": "leave",
+          "returned": [
+            "leave",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "synonym",
+          "query": "automobile protection",
+          "expected": "vehicle",
+          "returned": [
+            "vehicle",
+            "security",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "paraphrase",
+          "query": "How do I get my money back?",
+          "expected": "refund",
+          "returned": [],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "paraphrase",
+          "query": "Where can I eat in the morning?",
+          "expected": "food",
+          "returned": [
+            "food",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "paraphrase",
+          "query": "I cannot log in to my account",
+          "expected": "password",
+          "returned": [
+            "password",
+            "refund",
+            "clinic"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "i want to know panel clinic in damansara area",
+          "expected": "damansara",
+          "returned": [
+            "damansara",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "panel clinics in Damansara",
+          "expected": "damansara",
+          "returned": [
+            "damansara",
+            "clinic",
+            "parking"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "location",
+          "query": "panel clinic Shah Alam",
+          "expected": "clinic",
+          "returned": [
+            "clinic",
+            "damansara",
+            "food"
+          ],
+          "top1_correct": true,
+          "reciprocal_rank": 1.0
+        },
+        {
+          "category": "no-answer",
+          "query": "What is the quantum flux capacitor warranty?",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "no-answer",
+          "query": "What is the lunar geology protocol?",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        },
+        {
+          "category": "no-answer",
+          "query": "the and is",
+          "expected": null,
+          "returned": [
+            "food",
+            "password",
+            "expense"
+          ],
+          "top1_correct": false,
+          "reciprocal_rank": 0
+        }
+      ]
+    }
+  }
+}

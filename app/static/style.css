@@ -234,3 +234,5 @@ header{background:#ffffff}
  .title-row{flex-direction:column;gap:18px}
  .title-row .primary{font-size:12px;padding:12px 15px}
 }
+
+.result p.partial-match{font-size:11px;line-height:1.7;color:#854d0e;background:#fff8e6;border:1px solid #f4dfab;border-radius:6px;padding:10px 12px}

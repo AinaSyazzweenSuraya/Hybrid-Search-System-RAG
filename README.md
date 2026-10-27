@@ -90,3 +90,7 @@ No external fonts, scripts, analytics, or AI requests are needed by the applicat
 See [GitHub and Vercel deployment](docs/DEPLOYMENT.md). Vercel requires a persistent PostgreSQL `DATABASE_URL`; local SQLite is not used in serverless deployments. Uploads are limited to 4 MiB on Vercel.
 
 The interface includes a first-use guide, **How to use** help, plain-language search mode explanations, **My documents**, and resettable **Search settings**. The **Meaning** mode maps to the API's `semantic` mode.
+
+## Search accuracy investigation
+
+See [accuracy findings and before/after results](docs/ACCURACY_REPORT.md). A small synthetic diagnostic fixture and clinic-location regression tests are included; these do not establish accuracy on your own documents. Run `.venv/bin/python scripts/evaluate_retrieval.py --output /tmp/retrieval-evaluation.json` to reproduce the current diagnostic results. Search now includes filenames and warns about missing query words. Previously uploaded documents must be re-uploaded to benefit from preserved section line breaks and corrected DOCX paragraph/table order.

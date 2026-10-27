@@ -58,6 +58,17 @@ with server() as base_url, sync_playwright() as p:
  assert page.locator('[data-mode=hybrid]').get_attribute('aria-pressed')=='true'
  page.click('#uploadTop');page.locator('#files').set_input_files({'name':'browser-upload.txt','mimeType':'text/plain','buffer':b'Browser upload confirms searchable astronaut telescope mission documents.'});page.wait_for_selector('#uploadStatus .success');page.click('#finishUpload');assert page.locator('#query').evaluate('(e)=>e===document.activeElement')
  page.locator('#query').fill('astronaut');page.locator('[data-mode=keyword]').click();page.click('#searchButton');page.wait_for_function("document.querySelector('.result h3')?.textContent === 'browser-upload.txt'")
+ # Reproduce the reported clinic/location relevance problem in the isolated library.
+ clinic_ids=[]
+ for name,text in [('accuracy-wrong-area.txt','Panel clinics in Shah Alam include Example Medical.'),('accuracy-other.txt','I want to know the Damansara shopping area opening hours.'),('accuracy-target.txt','Panel clinics in Damansara include Example Damansara Clinic.')]:
+  response=page.request.post(base_url+'/api/documents',multipart={'file':{'name':name,'mimeType':'text/plain','buffer':text.encode()}})
+  assert response.status==201
+  clinic_ids.append(response.json()['id'])
+ page.locator('[data-mode=hybrid]').click();page.locator('#query').fill('i want to know panel clinic in damansara area');page.click('#searchButton')
+ page.wait_for_function("document.querySelector('.result h3')?.textContent === 'accuracy-target.txt'")
+ assert page.locator('.partial-match').count()>0
+ for identifier in clinic_ids: assert page.request.delete(base_url+'/api/documents/'+identifier).status==200
+ page.reload();page.wait_for_function("document.querySelector('#docCount').textContent === '4'")
  page.click('#libraryNav');assert page.locator('.library-item').count()==4
  page.on('dialog',lambda d:d.accept());page.locator('.library-item').filter(has_text='browser-upload.txt').get_by_role('button',name='Delete').click();page.wait_for_function("document.querySelector('#docCount').textContent === '3'")
  page.click('#searchNav');assert page.locator('#resultTitle').inner_text()=='Your search results'

@@ -3,6 +3,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
 from docx import Document
+from docx.table import Table
 from pptx import Presentation
 from openpyxl import load_workbook
 from striprtf.striprtf import rtf_to_text
@@ -17,7 +18,7 @@ def extract(name, data):
         return '\n'.join(p.extract_text() or '' for p in reader.pages)
     if ext=='.docx':
         d=Document(stream)
-        return '\n'.join([p.text for p in d.paragraphs]+[' | '.join(c.text for c in r.cells) for t in d.tables for r in t.rows])
+        return '\n'.join('\n'.join(' | '.join(c.text for c in row.cells) for row in block.rows) if isinstance(block,Table) else block.text for block in d.iter_inner_content())
     if ext=='.pptx': return '\n'.join(s.text for slide in Presentation(stream).slides for s in slide.shapes if s.has_text_frame)
     if ext=='.xlsx':
         wb=load_workbook(stream,read_only=True,data_only=True)

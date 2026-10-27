@@ -11,13 +11,13 @@
 
 ## Retrieval mathematics
 
-BM25 uses lowercase Unicode word tokens, `k1=1.5`, and `b=0.75`. For each query term:
+Search includes filenames and original section text. BM25 uses lowercase Unicode word tokens, a small explicit singular-word map, and filters English/conversational stop words from queries, `k1=1.5`, and `b=0.75`. For each query term:
 
 `IDF = ln(1 + (N - df + 0.5) / (df + 0.5))`
 
 `score += IDF * tf * (k1 + 1) / (tf + k1 * (1 - b + b * length / average_length))`
 
-Semantic retrieval fits TF-IDF unigrams and bigrams with sublinear term frequency over the current candidate corpus. A deterministic truncated SVD (`random_state=42`, up to 128 components, bounded by corpus dimensions) projects passages and the query into a shared latent space. L2-normalized projected vectors use cosine similarity, clipped at zero. With fewer than three corpus dimensions the implementation uses expanded TF-IDF cosine instead of SVD. Empty vocabularies return zero semantic scores.
+Semantic retrieval fits TF-IDF unigrams and bigrams with sublinear term frequency and stop-word filtering over the current candidate corpus. A deterministic truncated SVD (`random_state=42`, up to 128 components, bounded by corpus dimensions) projects passages and the query into a shared latent space. The meaning score blends 60% expanded TF-IDF cosine with 40% nonnegative LSA cosine. A positive expanded TF-IDF overlap is required so projection alone cannot introduce unsupported matches in small collections. With fewer than three corpus dimensions the implementation uses expanded TF-IDF cosine instead of SVD. Empty vocabularies return zero semantic scores.
 
 A small explicit synonym map expands concepts such as car/automobile/vehicle and holiday/vacation/leave. See `CONCEPTS` in `app/engine.py` for the complete map. This aids cold starts but can also introduce irrelevant matches, especially ambiguous terms such as “leave.” LSA learns co-occurrence rather than understanding language like a pretrained transformer. No claim of universal semantic equivalence is made.
 
@@ -43,3 +43,9 @@ Local SQLite or optional persistent PostgreSQL runs one transaction per upload o
 ## Next production milestones
 
 Evaluate retrieval quality with representative relevance labels before choosing embeddings or thresholds; add a pretrained embedding adapter and persistent vector index; add an optional grounded LLM generator with citation validation; add authentication, resource isolation, background ingestion, and deployment controls. These are future extensions, not tested features in this release.
+
+## Relevance diagnostics
+
+Search results expose `matched_terms` and `missing_terms` for normalized, non-stop query words found in the filename or section text. The UI warns about partial word matches. These fields do not prove that a clinic is approved, that an address is current, or that the requested location is covered. They are literal term evidence, not a named-entity or geography model. Query expansion is still a small fixed dictionary; unfamiliar paraphrases and non-English queries need separate evaluation.
+
+Chunking preserves whitespace and line breaks inside each window. DOCX body paragraphs and tables retain their source order. Original PDF page geometry and table structure are not reconstructed; this is text extraction rather than a PDF viewer.
